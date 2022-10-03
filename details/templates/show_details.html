@@ -17,13 +17,14 @@
 <td>{{i.roll_no}}</td>
 <td>{{i.name}}</td>
 <td><img src="{{ i.profile.url }}", width = 100px ></td>
-<td><button><a href = show_mark/{{i.id}}>marks</a></button></td>
-<td><button><a href = update_stu/{{i.id}}>update</a></button></td>
-<td><button><a href = del_stu/{{i.id}}>delete</a></button></td>
+<td><a href = show_mark/{{i.id}}><button>marks</button></a></td>
+<td><a href = update_stu/{{i.id}}><button>update</button></a></td>
+<td><a href = del_stu/{{i.id}}><button>delete</button></a></td>
 </tr>
 {% endfor %}
 </table>
 <br>
-<button><a href = http://127.0.0.1:8000/student/students>add student</a></button>
-<button><a href = http://127.0.0.1:8000/student/marks>add marks</a></button>
+<a href = "{% url 'add_student' %}"><button>add student</button></a>
+<a href = "{% url 'add_marks' %}"><button>add marks</button></a>
+<a href="{% url 'Form_out' %}"><button>logout</button></a>
 </center>

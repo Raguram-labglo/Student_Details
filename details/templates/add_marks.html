@@ -2,6 +2,7 @@
         {% csrf_token %}  
         {{ mark.as_p }}  
         <button type="submit" >Save</button>
-        <a href="/"><input type="button" value="Back" class="btn btn-primary" /></a>  
+        
+        
     </form>
-    
+    <a href="{% url 'details' %}"><button type="submit" >back</button></a>
