@@ -7,17 +7,18 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
-
+from django.contrib.auth.decorators import login_required
+@login_required(redirect_field_name='Form_in',login_url='Form_in')
 def show(request):
 
     stud = Student.objects.all()
     marks1 = Mark.objects.all()
     context = {'stu':stud,'mar':marks1}
     return render(request, 'show_details.html', context)  
-
+@login_required()
 def home(request):
     return render(request, "home.html")
-    
+@login_required() 
 def web(request):
     return render(request, "web.html")
 
@@ -31,6 +32,7 @@ def Form_in(request):
  
         if user is not None:
             login(request,user)
+            print(request.user)
             return redirect('details')
         else:
             
@@ -41,12 +43,12 @@ def Form_in(request):
     else:
         form = AuthenticationForm()
         return render(request, 'log_in.html', {'form':form})
-        
+@login_required(redirect_field_name='F',login_url='Form_in')      
 def Form_out(request):
     logout(request)
     return redirect('Form_in')
 
-
+@login_required(redirect_field_name='F',login_url='Form_in')
 def add_form(request):
 
     form = Student_form(request.POST or None, request.FILES or None)
@@ -56,7 +58,7 @@ def add_form(request):
         
     return render(request, 'add_student.html', {'data':form})
     
-    
+@login_required(redirect_field_name='F',login_url='Form_in')  
 def add_marks(request):
 
     form1 = Mark_form(request.POST or None, request.FILES or None)
@@ -66,14 +68,14 @@ def add_marks(request):
         
     return render(request, 'add_marks.html', {'mark':form1})  
 
-    
+@login_required(redirect_field_name='F',login_url='Form_in')   
 def show_mark(request,id):
 
     mar = Mark.objects.filter(student_num_id = id).values()
     return render(request, 'show_mark.html',{'mar':mar})
     return redirect('show')
     
-    
+@login_required(redirect_field_name='F',login_url='Form_in')   
 def update_stu(request,id):
 
     mar = Student.objects.get(id = id)
@@ -82,7 +84,7 @@ def update_stu(request,id):
         form2.save()  
     return render(request, 'update_stu.html',{'form':form2})
     
-    
+@login_required()   
 def update_mark(request,id):
 
     mar1 = Mark.objects.get(id = id)
@@ -94,13 +96,14 @@ def update_mark(request,id):
     return redirect('/show/')  
 
     
-    
+@login_required() 
 def del_student(request,id):
 
     stu = Student.objects.get(id = id)
     stu.delete()
     return HttpResponse("deleted")
-    
+
+@login_required()
 def del_mark(request,id):
 
     mark_del = Mark.objects.get(id = id)

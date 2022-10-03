@@ -3,8 +3,10 @@
 <form method="POST" enctype = 'multipart/form-data'>  
         {% csrf_token %}  
         {{ form.as_p }}  
-        <button type="submit" >Save</button>  
+        <button type="submit" >Save</button>
+        
     </form>
+    <a href="{% url 'details' %}"><button type="submit" >back</button></a>
 
 </body>  
 </html>

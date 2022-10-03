@@ -4,8 +4,9 @@
         {% csrf_token %}  
         {{ mark1.as_p }}  
         <button type="submit" >Save</button> 
-        <td><button><a href = 'http://127.0.0.1:8000/student/'>back</a></button></td>
+        
     </form>
+    <a href="{% url 'details' %}"><button type="submit" >back</button></a>
 
 </body>  
 </html>
