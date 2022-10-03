@@ -1,0 +1,23 @@
+<table border = '2'>
+<tr>
+<th>subject</th>
+<th>Mark</th>
+<th>Created_at</th>
+<th>Modified_at</th>
+</tr>
+{% for m in mar %}
+
+<tr>
+<td>{{m.subject}}</td>
+<td>{{m.mark}}</td>
+<td>{{m.Created_at}}</td>
+<td>{{m.Modified_at}}</td>
+<td><button><a href = 'http://127.0.0.1:8000/student/update_mark/{{m.id}}'>update</a></button></td>
+<td><button><a href = 'http://127.0.0.1:8000/student/delete_mark/{{m.id}}'>delete</a></button></td>
+
+</tr>
+{% endfor %}
+
+</table>
+<br>
+<button><a href = 'http://127.0.0.1:8000/student/'>back</a></button>

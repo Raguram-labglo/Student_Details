@@ -1,0 +1,11 @@
+<html>    
+<body>  
+<form method="POST" enctype = 'multipart/form-data'>  
+        {% csrf_token %}  
+        {{ mark1.as_p }}  
+        <button type="submit" >Save</button> 
+        <td><button><a href = 'http://127.0.0.1:8000/student/'>back</a></button></td>
+    </form>
+
+</body>  
+</html>
