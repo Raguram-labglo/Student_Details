@@ -64,20 +64,20 @@ def add_marks(request):
     form1 = Mark_form(request.POST or None, request.FILES or None)
     
     if form1.is_valid():
-        form1.save()
-        
+        if form1.is_valid():
+            form1 = form1.save(commit = False)
+            form1.created_by = (request.user).username
+            form1.save()  
     return render(request, 'add_marks.html', {'mark':form1})  
 
 @login_required(redirect_field_name='F',login_url='Form_in')   
 def show_mark(request,id):
-
+   
     mar = Mark.objects.filter(student_num_id = id).values()
     return render(request, 'show_mark.html',{'mar':mar})
-    return redirect('show')
     
 @login_required(redirect_field_name='F',login_url='Form_in')   
 def update_stu(request,id):
-
     mar = Student.objects.get(id = id)
     form2 = Student_form(request.POST or None, request.FILES or None, instance = mar) 
     if form2.is_valid():
@@ -88,14 +88,14 @@ def update_stu(request,id):
 def update_mark(request,id):
 
     mar1 = Mark.objects.get(id = id)
-    mark1 = Mark_form(request.POST or None, request.FILES or None, instance = mar1) 
-    print(mark1)
+    mark1 = Mark_form(request.POST or None, request.FILES or None, instance = mar1)
     if mark1.is_valid():
-        mark1.save()  
+        mark1 = mark1.save(commit = False)
+        mark1.updated_by = (request.user).username
+        mark1.save() 
+        return redirect('/') 
     return render(request, 'update_mark.html',{'mark1':mark1})
-    return redirect('/show/')  
 
-    
 @login_required() 
 def del_student(request,id):
 
