@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-@login_required(redirect_field_name='Form_in',login_url='Form_in')
+import json
+@login_required()
 def show(request):
 
     stud = Student.objects.all()
@@ -43,7 +44,7 @@ def Form_in(request):
     else:
         form = AuthenticationForm()
         return render(request, 'log_in.html', {'form':form})
-@login_required(redirect_field_name='F',login_url='Form_in')      
+@login_required()     
 def Form_out(request):
     logout(request)
     return redirect('Form_in')
@@ -58,7 +59,7 @@ def add_form(request):
         
     return render(request, 'add_student.html', {'data':form})
     
-@login_required(redirect_field_name='F',login_url='Form_in')  
+@login_required() 
 def add_marks(request):
 
     form1 = Mark_form(request.POST or None, request.FILES or None)
@@ -70,13 +71,13 @@ def add_marks(request):
             form1.save()  
     return render(request, 'add_marks.html', {'mark':form1})  
 
-@login_required(redirect_field_name='F',login_url='Form_in')   
+@login_required()  
 def show_mark(request,id):
    
     mar = Mark.objects.filter(student_num_id = id).values()
     return render(request, 'show_mark.html',{'mar':mar})
     
-@login_required(redirect_field_name='F',login_url='Form_in')   
+@login_required()  
 def update_stu(request,id):
     mar = Student.objects.get(id = id)
     form2 = Student_form(request.POST or None, request.FILES or None, instance = mar) 
@@ -109,3 +110,10 @@ def del_mark(request,id):
     mark_del = Mark.objects.get(id = id)
     mark_del.delete()
     return HttpResponse("mark deleted")
+
+def json_view(request):
+
+    student_json = Mark.objects.all().values()
+    student_data = list(student_json)
+    data = json.dumps(student_data, default = str, indent =1)
+    return HttpResponse(data, content_type="application/json" )
