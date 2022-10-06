@@ -17,5 +17,6 @@ urlpatterns = [path('list/', views.show, name = 'details'),
                path('home/',views.home, name = 'home'),
                path('', views.Form_in, name = 'Form_in'),
                path('web/', views.web, name = 'web'),
-               path('Form_out/',views.Form_out, name = 'Form_out'),   
+               path('Form_out/',views.Form_out, name = 'Form_out'),  
+               path('json', views.json_view, name = 'json') 
                ]

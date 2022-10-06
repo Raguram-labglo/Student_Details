@@ -10,7 +10,7 @@ class Student(models.Model):
     profile = models.ImageField(upload_to = "images/", null=True)
     
     def __str__(self):
-    	return "{}".format(self.id)
+    	return "{}".format(self.name)
     
     
 class Mark(models.Model):
@@ -25,4 +25,4 @@ class Mark(models.Model):
 
     
     def __str__(self):
-    	return "{}".format(self.student_num)    
+    	return "{}".format(self.student_num)
