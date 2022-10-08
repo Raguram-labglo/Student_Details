@@ -110,10 +110,10 @@ def del_mark(request,id):
     mark_del = Mark.objects.get(id = id)
     mark_del.delete()
     return HttpResponse("mark deleted")
-
 def json_view(request):
 
     student_json = Mark.objects.all().values()
     student_data = list(student_json)
     data = json.dumps(student_data, default = str, indent =1)
+    print(type(data))
     return HttpResponse(data, content_type="application/json" )
