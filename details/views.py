@@ -11,7 +11,6 @@ from django.contrib.auth.decorators import login_required
 import json
 @login_required()
 def show(request):
-
     stud = Student.objects.all()
     marks1 = Mark.objects.all()
     context = {'stu':stud,'mar':marks1}
@@ -30,7 +29,6 @@ def Form_in(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username =username, password = password)
- 
         if user is not None:
             login(request,user)
             print(request.user)
