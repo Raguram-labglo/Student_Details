@@ -31,7 +31,6 @@ def Form_in(request):
         user = authenticate(request, username =username, password = password)
         if user is not None:
             login(request,user)
-            print(request.user)
             return redirect('details')
         else:
             

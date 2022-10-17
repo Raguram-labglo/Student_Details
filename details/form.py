@@ -12,4 +12,4 @@ class Mark_form(forms.ModelForm):
     
     class Meta:
         model = Mark
-        fields = ['student_num','subject','mark']
+        fields = ['student_num','subject','mark','mail']
