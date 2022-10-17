@@ -21,13 +21,11 @@ def save_profile(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Mark)
 def save_profile(sender, instance, **kwargs):
-    if instance.id is None:
-        print('saved')
-        instance.student_num.save()
-        global mail_qs
-        ob = Mark.objects.filter(id = instance.id).values('student_num__mail')
-        mail_qs = ob[0]['student_num__mail']
-        send_mail('update', 'your {} mark has {} to {} updated'.format( instance.subject,mark1.mark,instance.mark), 'cmadiam@abc.com', [mail_qs])
+    
+    print('saved')
+    ob = Mark.objects.filter(id = instance.id).values('student_num__mail')
+    mail_qs = ob[0]['student_num__mail']
+    send_mail('update', 'your {} mark has updated to {}'.format( instance.subject,instance.mark), 'cmadiam@abc.com', [mail_qs])
 
 @receiver(pre_delete, sender=Mark)
 def Del_profile(sender, instance, *args, **kwargs):
@@ -35,6 +33,5 @@ def Del_profile(sender, instance, *args, **kwargs):
 
     ob = Mark.objects.filter(id = instance.id).values('student_num__mail')
     mail_qs = ob[0]['student_num__mail']
-    
     print(ob)
     send_mail('deleted', 'your {} mark has deleted'.format(instance.subject), 'cmadiam@abc.com', [mail_qs])
