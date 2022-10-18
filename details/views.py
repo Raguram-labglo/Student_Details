@@ -1,7 +1,8 @@
+from textwrap import indent
 from django.shortcuts import render,redirect
 from .form import *
 from .models import *
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -9,6 +10,11 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import json
+from django.views.generic.list import ListView
+from django.db.models import Sum
+from django.core import serializers
+
+
 @login_required()
 def show(request):
     stud = Student.objects.all()
@@ -107,10 +113,27 @@ def del_mark(request,id):
     mark_del = Mark.objects.get(id = id)
     mark_del.delete()
     return HttpResponse("mark deleted")
-def json_view(request):
+def json_view(request,id):
 
-    student_json = Mark.objects.all().values()
-    student_data = list(student_json)
-    data = json.dumps(student_data, default = str, indent =1)
-    print(type(data))
-    return HttpResponse(data, content_type="application/json" )
+    stu_qs = Student.objects.filter(id = id).values()
+    student_json = Mark.objects.filter(student_num_id = id).values('subject', 'mark')
+    sum_total = Mark.objects.filter(student_num_id = id).aggregate(Total = Sum('mark'))
+    final_json =  list(stu_qs) + list(student_json) + list(sum_total.items())
+    data = json.dumps(final_json, default = str, indent =6)
+    print(sum_total)
+    return HttpResponse(data, content_type='application/json')
+
+
+class Json_show(ListView):
+    
+    model = Mark
+    def render_to_response(self, *args, **kwargs):
+        stu_qs = Student.objects.all().values()
+        student_json = Mark.objects.all().values()
+        sum_total = Mark.objects.all().aggregate(Sum('mark'))
+        print(sum_total)
+        final_json = list(stu_qs) + list(student_json) + list([sum_total])
+        print(final_json)
+        data = json.dumps(final_json, default = str, indent =6)
+        return HttpResponse(data, content_type = 'application/json')
+            
