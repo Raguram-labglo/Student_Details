@@ -12,7 +12,7 @@ def create_profile(sender, instance, created, **kwargs):
        print("created")
 
 @receiver(pre_save, sender=Mark)
-def save_profile(sender, instance, **kwargs):
+def saveprofile(sender, instance, **kwargs):
     if instance.id is None:
         print('pre saved')
     else:
@@ -28,9 +28,8 @@ def save_profile(sender, instance, **kwargs):
     send_mail('update', 'your {} mark has updated to {}'.format( instance.subject,instance.mark), 'cmadiam@abc.com', [mail_qs])
 
 @receiver(pre_delete, sender=Mark)
-def Del_profile(sender, instance, *args, **kwargs):
+def Del_profile(instance, **kwargs):
     print("deleted")
-
     ob = Mark.objects.filter(id = instance.id).values('student_num__mail')
     mail_qs = ob[0]['student_num__mail']
     print(ob)
