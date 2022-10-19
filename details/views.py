@@ -1,5 +1,6 @@
 from textwrap import indent
 from django.shortcuts import render,redirect
+from matplotlib.style import context
 from .form import *
 from .models import *
 from django.http import HttpResponse, JsonResponse
@@ -9,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-import json
+import json   
 from django.views.generic.list import ListView
 from django.db.models import Sum
 from django.core import serializers
@@ -129,11 +130,11 @@ class Json_show(ListView):
     model = Mark
     def render_to_response(self, *args, **kwargs):
         stu_qs = Student.objects.all().values()
-        student_json = Mark.objects.all().values()
-        sum_total = Mark.objects.all().aggregate(Sum('mark'))
-        print(sum_total)
-        final_json = list(stu_qs) + list(student_json) + list([sum_total])
+        student_json = Mark.objects.all().values().order_by('student_num_id')
+        #sum_total = Mark.objects.all().aggregate(Sum('mark'))
+        #print(sum_total)
+        final_json = list(stu_qs) + list(student_json)
         print(final_json)
         data = json.dumps(final_json, default = str, indent =6)
+        print(data)
         return HttpResponse(data, content_type = 'application/json')
-            
